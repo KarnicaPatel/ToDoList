@@ -9,6 +9,8 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -17,7 +19,7 @@ import org.testng.annotations.Test;
 public class TestCase2 {
 
 	@Test
-	public void case2(){
+	public void delete() throws InterruptedException{
 		//get the path of user current working
 		final String projectDiretcory = System.getProperty("user.dir");	
 		String replaceString=projectDiretcory.replace("\\","//");
@@ -98,40 +100,27 @@ public class TestCase2 {
 					Assert.assertEquals(true, driver.findElement(By.className("todo-list")).isDisplayed());
 					System.out.println("To do added successfully");
 					System.out.println("No of elements in list = "+driver.findElement(By.className("todo-count")).getText());
-					assert true;
-					
-					WebElement toDoList = driver.findElement(By.className("todo-list"));
-					WebElement list1 = toDoList.findElement(By.tagName("li"));
-					List<WebElement> list = toDoList.findElements(By.tagName("li"));			
-					int listSize = list.size();
-					System.out.println("Size of list: " +listSize);
-					
-					WebElement element;		
-					
-					for (int i = 1; i <= listSize ; i++) {
-						list1.findElement(By.tagName("div")).findElement(By.tagName("label")).click();
-						list1.findElement(By.tagName("div")).findElement(By.tagName("label")).click();
-						element = driver.findElement(By.xpath("/html/body/section/div/section/ul/li["+i+"]/div/label"));
+					assert true;					
+
+					//press Delete
+					driver.findElement(By.xpath("/html/body/section/div/section/ul/li[1]/div")).click();
+
+					WebElement list = driver.findElement(By.xpath("/html/body/section/div/section/ul/li[1]/div/button"));
+
+					if(list.isEnabled()){
+						Action b = new Actions(driver).moveToElement(list).click().build();
+						b.perform();
+
+						Thread.sleep(2000);
 						
-						JavascriptExecutor executor = (JavascriptExecutor)driver;
-						executor.executeScript("arguments[0].click();", element);
-						executor = (JavascriptExecutor)driver;
-						executor.executeScript("arguments[0].click();", element);
+						System.out.println("PageSource: "+driver.findElement(By.xpath("html/body")).getText());
 						
-						driver.findElement(By.xpath("/html/body/section/div/section/ul/li["+i+"]/div/label")).clear();
-						driver.findElement(By.xpath("/html/body/section/div/section/ul/li["+i+"]/div/label")).sendKeys("abc");
-						//html/body/section/div/section/ul/li[1]/input
-						//html/body/section/div/section/ul/li[1]/div/label
+						if(driver.findElement(By.xpath("html/body")).getText().contains(todoValue))
+							System.out.println("No of elements in list = "+driver.findElement(By.className("todo-count")).getText());
+						else
+							System.out.println("To do deleted successfully");	
 					}
-					
-					/*firstOnList.findElement(By.cssSelector("li:nth-child(1)")).click();
-					firstOnList.findElement(By.cssSelector("li:nth-child(1)")).click();
-					firstOnList.findElement(By.className("edit")).sendKeys("bhghghj");
-					*/
-					
-					//press Enter
-					WebElement edit = driver.findElement(By.className("todo-list")).findElement(By.className("edit"));
-					edit.sendKeys(Keys.ENTER);
+
 					//wait
 					try {
 						Thread.sleep(1000);
