@@ -113,8 +113,6 @@ public class TestCase2 {
 
 						Thread.sleep(2000);
 
-						System.out.println("PageSource: "+driver.findElement(By.xpath("html/body")).getText());
-
 						if(driver.findElement(By.xpath("html/body")).getText().contains(todoValue))
 							System.out.println("Failed to delete a to do");
 						else
