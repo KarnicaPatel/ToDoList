@@ -8,7 +8,7 @@ TC_S1_02	To create a new entry in to do list using numbers
 
 TC_S1_03	To create a new entry in to do list using special characters including space
 
-TC_S1_04	To create a new entry in to do list using all possible varchar combination(characters, numbers, space and special charatcters
+TC_S1_04	To create a new entry in to do list using all possible varchar combination(characters, numbers, space and special charatcters)
 
 #TestCase2.java contains followint test case:
 
