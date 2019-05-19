@@ -106,8 +106,7 @@ public class TestCase2 {
 					int listSize = list.size();
 					System.out.println("Size of list: " +listSize);
 					
-					WebElement element;
-					
+					WebElement element;		
 					
 					for (int i = 1; i <= listSize ; i++) {
 						list1.findElement(By.tagName("div")).findElement(By.tagName("label")).click();
