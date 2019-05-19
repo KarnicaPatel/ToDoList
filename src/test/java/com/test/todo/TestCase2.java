@@ -112,11 +112,11 @@ public class TestCase2 {
 						b.perform();
 
 						Thread.sleep(2000);
-						
+
 						System.out.println("PageSource: "+driver.findElement(By.xpath("html/body")).getText());
-						
+
 						if(driver.findElement(By.xpath("html/body")).getText().contains(todoValue))
-							System.out.println("No of elements in list = "+driver.findElement(By.className("todo-count")).getText());
+							System.out.println("Failed to delete a to do");
 						else
 							System.out.println("To do deleted successfully");	
 					}
