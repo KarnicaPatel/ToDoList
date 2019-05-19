@@ -1,10 +1,8 @@
 package com.test.todo;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -41,6 +39,7 @@ public class TestCase2 {
 		//Hit the URL
 		driver.get("http://todomvc.com/examples/typescript-react/#/");
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/section/div/header/input")));
+
 		//check if page loaded successfully and proceed
 		if(driver.findElement(By.xpath("/html/body/section/div/header/input")).isDisplayed()){
 
@@ -51,6 +50,7 @@ public class TestCase2 {
 			String pageTitle = driver.getTitle();
 			System.out.println("Page title = "+pageTitle);
 			Assert.assertEquals("React • TodoMVC", pageTitle);
+
 			if(pageTitle.equals("React • TodoMVC"))
 			{
 				System.out.println("Page Title verified successfully");
@@ -65,6 +65,7 @@ public class TestCase2 {
 			String curURL = driver.getCurrentUrl();
 			System.out.println("Current URL = "+curURL);
 			Assert.assertEquals("http://todomvc.com/examples/typescript-react/#/", curURL);
+
 			if(curURL.equals("http://todomvc.com/examples/typescript-react/#/"))
 			{
 				System.out.println("URL verified successfully");
@@ -89,17 +90,13 @@ public class TestCase2 {
 				WebElement textbox = driver.findElement(By.xpath("/html/body/section/div/header/input"));
 				textbox.sendKeys(Keys.ENTER);
 				//wait
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				Thread.sleep(1000);
 
+				//check if list is displayed
 				if(driver.findElement(By.className("todo-list")).isDisplayed()){
 					Assert.assertEquals(true, driver.findElement(By.className("todo-list")).isDisplayed());
 					System.out.println("To do added successfully");
-					System.out.println("No of elements in list = "+driver.findElement(By.className("todo-count")).getText());
+					System.out.println("No of elements in list before deleting = "+driver.findElement(By.className("todo-count")).getText());
 					assert true;					
 
 					//press Delete
@@ -107,12 +104,14 @@ public class TestCase2 {
 
 					WebElement list = driver.findElement(By.xpath("/html/body/section/div/section/ul/li[1]/div/button"));
 
+					//check if element is enabled or not
 					if(list.isEnabled()){
 						Action b = new Actions(driver).moveToElement(list).click().build();
 						b.perform();
 
 						Thread.sleep(2000);
 
+						//check item deleted or not
 						if(driver.findElement(By.xpath("html/body")).getText().contains(todoValue))
 							System.out.println("Failed to delete a to do");
 						else
@@ -120,12 +119,7 @@ public class TestCase2 {
 					}
 
 					//wait
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					Thread.sleep(1000);
 				}
 				else
 				{
