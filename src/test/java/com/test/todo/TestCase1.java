@@ -16,7 +16,7 @@ import org.testng.annotations.Test;
 public class TestCase1 {
 
 	@Test
-	public void add()
+	public void add() throws InterruptedException
 	{
 		//get the path of user current working
 		final String projectDiretcory = System.getProperty("user.dir");	
@@ -88,15 +88,11 @@ public class TestCase1 {
 					//press Enter
 					WebElement textbox = driver.findElement(By.xpath("/html/body/section/div/header/input"));
 					textbox.sendKeys(Keys.ENTER);
-					
-					//wait
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
 
+					//wait
+					Thread.sleep(1000);
+
+					//check if list is displayed
 					if(driver.findElement(By.className("todo-list")).isDisplayed()){
 						Assert.assertEquals(true, driver.findElement(By.className("todo-list")).isDisplayed());
 						System.out.println("To do added successfully");
@@ -117,8 +113,6 @@ public class TestCase1 {
 			else{
 				System.out.println("Water mark not found");
 			}
-			//css selector by developer tool
-			//driver.findElement(By.cssSelector("#tsf > div.tsf-p > div.jsb > center > input[type='submit']:nth-child(1)")).click();
 		}
 		else{
 			System.out.println("Text box not found");
