@@ -16,7 +16,7 @@ import org.testng.annotations.Test;
 public class TestCase1 {
 
 	@Test
-	public void case1()
+	public void add()
 	{
 		//get the path of user current working
 		final String projectDiretcory = System.getProperty("user.dir");	
@@ -34,7 +34,7 @@ public class TestCase1 {
 		//Explicit wait
 		WebDriverWait wait = new WebDriverWait(driver,60);
 
-		String todoValue="      &*& huge 88";
+		String todoValue[]={"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ","0123456789","`~!@#$%^&*()_   +-={}|[]\\/.,<>?':;","      J@mE$_Bond 007"};
 
 		//Hit the URL
 		driver.get("http://todomvc.com/examples/typescript-react/#/");
@@ -44,7 +44,7 @@ public class TestCase1 {
 
 			Assert.assertEquals(true, driver.findElement(By.xpath("/html/body/section/div/header/input")).isDisplayed());
 			System.out.println("Text box verified successfully");
-			
+
 			//Validate the title of Page
 			String pageTitle = driver.getTitle();
 			System.out.println("Page title = "+pageTitle);
@@ -72,38 +72,46 @@ public class TestCase1 {
 				System.out.println("Invalid URL");
 				assert	false;	
 			}
-			
+
 			//Check for water mark
 			if(driver.findElement(By.className("new-todo")).isDisplayed()){
 				Assert.assertEquals(true, driver.findElement(By.className("new-todo")).isDisplayed());
 				System.out.println("Water mark verified successfully");
-				
-				//Provide text value
-				System.out.println("Original value = "+todoValue);
-				System.out.println("Value after trimming spaces = "+todoValue.trim());
-				driver.findElement(By.xpath("/html/body/section/div/header/input")).sendKeys(todoValue.trim());
-				
-				//press Enter
-				WebElement textbox = driver.findElement(By.xpath("/html/body/section/div/header/input"));
-				textbox.sendKeys(Keys.ENTER);
-				//wait
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				if(driver.findElement(By.className("todo-list")).isDisplayed()){
-					Assert.assertEquals(true, driver.findElement(By.className("todo-list")).isDisplayed());
-					System.out.println("To do added successfully");
-					System.out.println("No of elements in list = "+driver.findElement(By.className("todo-count")).getText());
-					assert true;
-				}
-				else
+
+				for(int i = 0; i< todoValue.length; i++)
 				{
-					System.out.println("Failed to add a To do");
-					assert false;
+					//Provide text value
+					System.out.println("Original value = "+todoValue[i]);
+					System.out.println("Value after trimming spaces = "+todoValue[i].trim());
+					driver.findElement(By.xpath("/html/body/section/div/header/input")).sendKeys(todoValue[i]);
+
+					//press Enter
+					WebElement textbox = driver.findElement(By.xpath("/html/body/section/div/header/input"));
+					textbox.sendKeys(Keys.ENTER);
+					
+					//wait
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+					if(driver.findElement(By.className("todo-list")).isDisplayed()){
+						Assert.assertEquals(true, driver.findElement(By.className("todo-list")).isDisplayed());
+						System.out.println("To do added successfully");
+						if(todoValue[i].length() > todoValue[i].trim().length())
+						{
+							System.out.println("Additional space in the String removed successfully");
+						}
+						System.out.println("No of elements in list = "+driver.findElement(By.className("todo-count")).getText());
+						assert true;
+					}
+					else
+					{
+						System.out.println("Failed to add a To do");
+						assert false;
+					}
 				}
 			}
 			else{
